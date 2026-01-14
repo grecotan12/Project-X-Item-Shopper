@@ -3,10 +3,13 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useState, useRef } from 'react';
 import { File } from 'expo-file-system';
 import { FontAwesome } from '@expo/vector-icons';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
-export const CameraScreen = ({ imageUri, setImageUri}) => {
+export const CameraScreen = ({ imageUri, setImageUri }) => {
     const [permission, requestPermission] = useCameraPermissions();
     const cameraRef = useRef(null);
+    const navigation = useNavigation();
 
     if (!permission) {
         return <View />;
@@ -31,25 +34,59 @@ export const CameraScreen = ({ imageUri, setImageUri}) => {
             quality: 0.8,
             skipProcessing: true
         })
-
         setImageUri(pic.uri);
     }
 
-    const clearPic = async() => {
+    const clearPic = async () => {
         if (!imageUri) return;
-
         const file = new File(imageUri);
         await file.delete();
         setImageUri(null);
         console.log(imageUri);
     }
 
+    const sendImage = async () => {
+        if (!imageUri) return;
+        const formData = new FormData();
+
+        formData.append("file", {
+            uri: imageUri,
+            name: "upload.jpg",
+            type: "image/jpeg"
+        });
+        try {
+            const res = await axios.post("http://192.168.1.237:8000/recognize",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            const detections = res.data['detections'];
+            //console.log(detections['laptop'][0].image)
+            const finalList = [];
+            for (const key in detections) {
+                finalList.push({
+                    name: key,
+                    pic: detections[key][0].image
+                })
+            }
+            navigation.navigate('Objects', {
+                info: finalList
+            })
+        } catch (error) {
+            // console.log(error);
+            console.log(error);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.cameraContainer}>
-                <Text style={styles.title}>Take a picture</Text>
-                {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture}/> :
-                <CameraView ref={cameraRef} style={styles.cameraCapture} /> }
+                <Text style={styles.title}>Current Image</Text>
+                {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture} /> :
+                    <CameraView ref={cameraRef} style={styles.cameraCapture} />}
                 <View style={styles.btnContainer}>
                     <TouchableOpacity style={[styles.btnStyle, btnStyles.takeBtn]} onPress={capturePic}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="camera" size={32} color="white" /></Text>
@@ -57,7 +94,11 @@ export const CameraScreen = ({ imageUri, setImageUri}) => {
                     <TouchableOpacity style={[styles.btnStyle, btnStyles.retakeBtn]} onPress={clearPic}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="rotate-left" size={32} color="white" /></Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={[styles.btnStyle, btnStyles.sendBtn]} onPress={sendImage}>
+                        <Text style={styles.btnTextStyle}><FontAwesome name="paper-plane" size={32} color="white" /></Text>
+                    </TouchableOpacity>
                 </View>
+                {/* <Image source={{ uri: `data:image/jpeg;base64,${test}`}} style={{ width: 200, height: 200 }} /> */}
             </View>
         </View>
     )
@@ -66,9 +107,12 @@ export const CameraScreen = ({ imageUri, setImageUri}) => {
 const btnStyles = StyleSheet.create({
     takeBtn: {
         backgroundColor: "green"
-    }, 
+    },
     retakeBtn: {
         backgroundColor: "red"
+    },
+    sendBtn: {
+        backgroundColor: "blue"
     }
 });
 
@@ -116,7 +160,7 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         marginTop: 16,
-        flexDirection:'row',
+        flexDirection: 'row',
         justifyContent: 'space-around'
     },
     takeBtn: {
