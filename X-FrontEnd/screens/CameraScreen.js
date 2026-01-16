@@ -5,6 +5,7 @@ import { File } from 'expo-file-system';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 export const CameraScreen = ({ imageUri, setImageUri }) => {
     const [permission, requestPermission] = useCameraPermissions();
@@ -94,8 +95,11 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
                     <TouchableOpacity style={[styles.btnStyle, btnStyles.retakeBtn]} onPress={clearPic}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="rotate-left" size={32} color="white" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.sendBtn]} onPress={sendImage}>
-                        <Text style={styles.btnTextStyle}><FontAwesome name="paper-plane" size={32} color="white" /></Text>
+                    <TouchableOpacity style={[styles.btnStyle, btnStyles.objectBtn]} onPress={sendImage}>
+                        <Text style={styles.btnTextStyle}><FontAwesome name="object-ungroup" size={32} color="white" /></Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.btnStyle, btnStyles.wholeBtn]} onPress={sendImage}>
+                        <Text style={styles.btnTextStyle}><FontAwesome name="search" size={32} color="white" /></Text>
                     </TouchableOpacity>
                 </View>
                 {/* <Image source={{ uri: `data:image/jpeg;base64,${test}`}} style={{ width: 200, height: 200 }} /> */}
@@ -111,9 +115,13 @@ const btnStyles = StyleSheet.create({
     retakeBtn: {
         backgroundColor: "red"
     },
-    sendBtn: {
+    objectBtn: {
         backgroundColor: "blue"
+    },
+    wholeBtn: {
+        backgroundColor: "orange"
     }
+
 });
 
 const styles = StyleSheet.create({

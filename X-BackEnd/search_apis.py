@@ -7,14 +7,11 @@ from serpapi import GoogleSearch
 import os
 import uuid
 import boto3
+import json
 
 app = FastAPI()
 
 # TESTING
-AWS_ACCESS_KEY_ID = ""
-AWS_SECRET_ACCSES_KEY = ""
-AWS_REGION = ""
-AWS_S3_BUCKET = ""
 
 s3 = boto3.client(
     "s3",
@@ -63,11 +60,18 @@ async def searchImage(file: UploadFile = File( ... )):
         "engine": "google_lens",
         "type": "products",
         "url": image_url,
-        "api_key": ""
+        "api_key": SERPAPI_KEY
     }
 
     search = GoogleSearch(params)
     results = search.get_dict()
+    if "visual_matches" not in results:
+        return "NOT FOUND"
     visual_matches = results["visual_matches"]
-
     return visual_matches
+
+@app.get("/test")
+async def getTest():
+    with open("search_test.json", 'r', encoding="utf-8") as file:
+        data = json.load(file)
+    return data["visual_matches"]
