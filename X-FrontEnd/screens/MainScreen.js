@@ -4,15 +4,13 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { initLlama } from "llama.rn";
 import RNFS from 'react-native-fs'; // File system module
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export const MainScreen = ({ imageUri, setImageUri }) => {
+export const MainScreen = ({ llm, setLLM }) => {
     const navigation = useNavigation();
-    const [llm, setLLM] = useState(null);
 
     useEffect(() => {
         const ensureModel = async () => {
-            console.log(RNFS.DocumentDirectoryPath);
             const dest = `${RNFS.DocumentDirectoryPath}/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf`;
             const src = "models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf";
             const exists = await RNFS.exists(dest);
@@ -20,8 +18,8 @@ export const MainScreen = ({ imageUri, setImageUri }) => {
                 if (!llm) {
                     setLLM(await initLlama({
                         model: `${RNFS.DocumentDirectoryPath}/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf`,
-                        n_ctx: 256,
-                        n_threads: 4,
+                        n_ctx: 1024,
+                        n_threads: 2,
                     }));
                 }
                 console.log(true)
@@ -31,30 +29,32 @@ export const MainScreen = ({ imageUri, setImageUri }) => {
             if (!llm) {
                 setLLM(await initLlama({
                     model: `${RNFS.DocumentDirectoryPath}/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf`,
-                    n_ctx: 256,
-                    n_threads: 4,
+                    n_ctx: 1024,
+                    n_threads: 2,
                 }));
             }
         }
         ensureModel();
     })
 
-    const test = async () => {
-        console.log("test")
-        try {
-            console.log(llm);
-            const result = await llm.completion({
-                prompt: "Hello, who are you?",
-                n_predict: 256,
-            });
+    // const test = async () => {
+    //     console.log("test")
+    //     try {
+    //         console.log(llm);
+    //         const result = await llm.completion({
+    //             prompt: "Hello, who are you?",
+    //             n_predict: 256,
+    //             temperature: 0,
+    //             stop: ["</json>"],
+    //         });
 
-            console.log(result.text);
-        }
-        catch (e) {
-            console.log(e)
-        }
+    //         console.log(result.text);
+    //     }
+    //     catch (e) {
+    //         console.log(e)
+    //     }
 
-    }
+    // }
 
     const camScreen = () => {
         navigation.navigate('Camera');
@@ -74,9 +74,9 @@ export const MainScreen = ({ imageUri, setImageUri }) => {
                 <TouchableOpacity style={[styles.btnStyle, styles.photoBtn]} onPress={pickScreen}>
                     <Text style={styles.btnTextStyle}><FontAwesome name="photo" size={32} color="white" /></Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnStyle, styles.photoBtn]} onPress={test}>
+                {/* <TouchableOpacity style={[styles.btnStyle, styles.photoBtn]} onPress={test}>
                     <Text style={styles.btnTextStyle}>Test</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </>
     )

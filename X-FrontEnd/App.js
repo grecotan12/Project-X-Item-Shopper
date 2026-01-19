@@ -10,12 +10,13 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [imageUri, setImageUri] = useState(null);
+  const [llm, setLLM] = useState(null);
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home">
-          {(props) => <MainScreen {...props} imageUri={imageUri} setImageUri={setImageUri} />}
+          {(props) => <MainScreen {...props} llm={llm} setLLM={setLLM} />}
         </Stack.Screen>
         <Stack.Screen name="Camera">
           {(props) => <CameraScreen {...props} imageUri={imageUri} setImageUri={setImageUri} />}

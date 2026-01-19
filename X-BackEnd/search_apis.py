@@ -8,6 +8,8 @@ import os
 import uuid
 import boto3
 import json
+from pydantic import BaseModel
+from html_cleaner import HtmlCleaner
 
 app = FastAPI()
 
@@ -74,3 +76,21 @@ async def getTest():
     with open("search_test.json", 'r', encoding="utf-8") as file:
         data = json.load(file)
     return data["visual_matches"]
+
+class URLPayLoad(BaseModel):
+    url: str
+
+@app.post("/cleanHtml")
+def cleanHtml(payload: URLPayLoad):
+    url = payload.url
+    print(url)
+    cleaner = HtmlCleaner(url)
+    html = cleaner.fetch_html()
+
+    soup = cleaner.clean_html(html)
+    contents = cleaner.content_extraction(soup)
+    cleaner.clean_contents(contents)
+    cleaned_contents = cleaner.remove_dublicate(contents)
+
+    final_contents = cleaner.flatten_contents(cleaned_contents)
+    return final_contents

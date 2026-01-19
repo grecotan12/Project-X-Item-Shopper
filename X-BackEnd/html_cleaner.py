@@ -26,7 +26,8 @@ class HtmlCleaner:
             page.goto(self.url, wait_until="domcontentloaded", timeout=60000)
 
             html = page.content()
-
+            context.close()
+            browser.close()
             return html
     
     def clean_html(self, html):
@@ -96,15 +97,14 @@ class HtmlCleaner:
             out.append(f"{s['title']}:\n{" ".join(s['content'])}")
         return "\n\n".join(out)
 
-     
 
-test = HtmlCleaner("https://www.amazon.com/dp/B08WYXNVQ7/ref=sspa_dk_detail_1?psc=1&pd_rd_i=B08WYXNVQ7&pd_rd_w=q8wFE&content-id=amzn1.sym.7446a9d1-25fe-4460-b135-a60336bad2c9&pf_rd_p=7446a9d1-25fe-4460-b135-a60336bad2c9&pf_rd_r=TS1HDMMVNFZVZDB5XDGX&pd_rd_wg=CH1ph&pd_rd_r=22073be3-d9ae-4eb1-b64e-48ab7a5e4eec&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw")
-html = test.fetch_html()
-soup = test.clean_html(html)
-contents = test.content_extraction(soup)
-test.clean_contents(contents)
-cleaned_contents = test.remove_dublicate(contents)
+# test = HtmlCleaner("https://www.amazon.com/dp/B08WYXNVQ7/ref=sspa_dk_detail_1?psc=1&pd_rd_i=B08WYXNVQ7&pd_rd_w=q8wFE&content-id=amzn1.sym.7446a9d1-25fe-4460-b135-a60336bad2c9&pf_rd_p=7446a9d1-25fe-4460-b135-a60336bad2c9&pf_rd_r=TS1HDMMVNFZVZDB5XDGX&pd_rd_wg=CH1ph&pd_rd_r=22073be3-d9ae-4eb1-b64e-48ab7a5e4eec&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw")
+# html = test.fetch_html()
+# soup = test.clean_html(html)
+# contents = test.content_extraction(soup)
+# test.clean_contents(contents)
+# cleaned_contents = test.remove_dublicate(contents)
 
-final_contents = test.flatten_contents(cleaned_contents)
-print(final_contents)
+# final_contents = test.flatten_contents(cleaned_contents)
+# print(final_contents)
 
