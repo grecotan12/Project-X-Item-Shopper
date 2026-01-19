@@ -20,7 +20,6 @@ s3 = boto3.client(
     region_name=AWS_REGION
 )
 
-
 @app.post("/recognize")
 async def recognize(file: UploadFile = File( ... )):
     contents = await file.read()
