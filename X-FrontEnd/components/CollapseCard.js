@@ -22,7 +22,6 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
             <TouchableOpacity onPress={toggle} style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
             </TouchableOpacity>
-            {/* Only work when I have something here */}
             <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
                 <View
                 style={{ position: 'absolute', left: 0, right: 0 }}
