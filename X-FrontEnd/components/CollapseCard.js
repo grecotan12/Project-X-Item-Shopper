@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
-import { View, Text, Pressable, Animated, StyleSheet, Image, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable, Animated, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 export const CollapseCard = ({ title, source, link, imageUrl }) => {
     const [open, setOpen] = useState(false);
@@ -21,16 +22,17 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
             <TouchableOpacity onPress={toggle} style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
             </TouchableOpacity>
-
+            {/* Only work when I have something here */}
             <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
                 <View
+                style={{ position: 'absolute', left: 0, right: 0 }}
                     onLayout={e => {
                         if (contentHeight.current === 0) {
                             contentHeight.current = e.nativeEvent.layout.height;
                         }
                     }}
                 >
-                    <Image source={{ uri: imageUrl }} style={{ height: 100, width: 100 }} />
+                    <FastImage source={{ uri: imageUrl }} style={{ height: 100, width: 100 }} />
                     <Text>Source: {source}</Text>
 
                     <Pressable onPress={() => Linking.openURL(link)}>
