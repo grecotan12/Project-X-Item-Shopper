@@ -5,7 +5,6 @@ import { File } from 'expo-file-system';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-import * as ImageManipulator from 'expo-image-manipulator';
 
 export const CameraScreen = ({ imageUri, setImageUri }) => {
     const [permission, requestPermission] = useCameraPermissions();
@@ -41,12 +40,12 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
     const clearPic = async () => {
         if (!imageUri) return;
         const file = new File(imageUri);
-        await file.delete();
+        file.delete();
         setImageUri(null);
         console.log(imageUri);
     }
 
-    const sendImage = async () => {
+    const unGroup = async () => {
         if (!imageUri) return;
         const formData = new FormData();
 
@@ -82,6 +81,33 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
         }
     }
 
+    const chooseObject = async () => {
+        if (!imageUri) return;
+        const formData = new FormData();
+
+        formData.append("file", {
+            uri: imageUri,
+            name: "upload.jpg",
+            type: "image/jpeg"
+        });
+        try {
+            const res = await axios.post(`http://192.168.1.237:8000/searchImage/unclassified`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            const data = res.data;
+            navigation.navigate('Result', {
+                searchResult: data
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.cameraContainer}>
@@ -95,10 +121,10 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
                     <TouchableOpacity style={[styles.btnStyle, btnStyles.retakeBtn]} onPress={clearPic}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="rotate-left" size={32} color="white" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.objectBtn]} onPress={sendImage}>
+                    <TouchableOpacity style={[styles.btnStyle, btnStyles.objectBtn]} onPress={unGroup}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="object-ungroup" size={32} color="white" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.wholeBtn]} onPress={sendImage}>
+                    <TouchableOpacity style={[styles.btnStyle, btnStyles.wholeBtn]} onPress={chooseObject}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="search" size={32} color="white" /></Text>
                     </TouchableOpacity>
                 </View>

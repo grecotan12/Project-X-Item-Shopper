@@ -1,26 +1,34 @@
 import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity } from "react-native"
 import { useRoute } from "@react-navigation/native"
-import { FontAwesome } from '@expo/vector-icons';
-import { useState } from "react";
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
 export const ObjectsScreen = () => {
     const route = useRoute();
+    const navigation = useNavigation();
     const { info } = route.params;
-    const [currentObject, setCurrentObject] = useState("");
-    const [currentImage, setCurrentImage] = useState("");
 
     const chooseObject = async (object, img) => {
-        setCurrentObject(object);
-        setCurrentImage(img);
+        const formData = new FormData();
 
+        formData.append("file", {
+            uri: `data:image/jpeg;base64,${img}`,
+            name: "upload.jpg",
+            type: "image/jpeg"
+        });
         try {
-            const res = await axios.get("http://192.168.1.237:8000/test");
+            const res = await axios.post(`http://192.168.1.237:8000/searchImage/${object}`, 
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
             const data = res.data;
-            for (const info in data) {
-
-            }
+            navigation.navigate('Result', {
+                searchResult: data
+            })
         } catch (error) {
             console.log(error);
         }
@@ -45,23 +53,3 @@ export const ObjectsScreen = () => {
         </View>
     )
 }
-
-const btnStyles = StyleSheet.create({
-    sendBtn: {
-        backgroundColor: "blue"
-    }
-});
-
-const styles = StyleSheet.create({
-    btnStyle: {
-        width: 'auto',
-        padding: 16,
-        borderRadius: 20,
-        marginLeft: 50
-    },
-    btnTextStyle: {
-        fontSize: 24,
-        textAlign: 'center',
-        color: "white"
-    },
-});

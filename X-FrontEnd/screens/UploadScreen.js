@@ -34,12 +34,12 @@ export const UploadScreen = ({ imageUri, setImageUri }) => {
     const clearPic = async () => {
         if (!imageUri) return;
         const file = new File(imageUri);
-        await file.delete();
+        file.delete();
         setImageUri(null);
         console.log(imageUri);
     }
 
-    const sendImage = async () => {
+    const unGroup = async () => {
         if (!imageUri) return;
         console.log(imageUri)
         const formData = new FormData();
@@ -76,6 +76,33 @@ export const UploadScreen = ({ imageUri, setImageUri }) => {
         }
     }
 
+    const chooseObject = async () => {
+        if (!imageUri) return;
+        const formData = new FormData();
+
+        formData.append("file", {
+            uri: imageUri,
+            name: "upload.jpg",
+            type: "image/jpeg"
+        });
+        try {
+            const res = await axios.post(`http://192.168.1.237:8000/searchImage/unclassified`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            const data = res.data;
+            navigation.navigate('Result', {
+                searchResult: data
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.cameraContainer}>
@@ -89,8 +116,11 @@ export const UploadScreen = ({ imageUri, setImageUri }) => {
                     <TouchableOpacity style={[styles.btnStyle, btnStyles.retakeBtn]} onPress={clearPic}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="rotate-left" size={32} color="white" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.sendBtn]} onPress={sendImage}>
-                        <Text style={styles.btnTextStyle}><FontAwesome name="paper-plane" size={32} color="white" /></Text>
+                    <TouchableOpacity style={[styles.btnStyle, btnStyles.objectBtn]} onPress={unGroup}>
+                        <Text style={styles.btnTextStyle}><FontAwesome name="object-ungroup" size={32} color="white" /></Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.btnStyle, btnStyles.wholeBtn]} onPress={chooseObject}>
+                        <Text style={styles.btnTextStyle}><FontAwesome name="search" size={32} color="white" /></Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -105,8 +135,11 @@ const btnStyles = StyleSheet.create({
     retakeBtn: {
         backgroundColor: "red"
     },
-    sendBtn: {
+    objectBtn: {
         backgroundColor: "blue"
+    },
+    wholeBtn: {
+        backgroundColor: "orange"
     }
 });
 

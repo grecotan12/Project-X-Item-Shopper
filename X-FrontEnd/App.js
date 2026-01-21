@@ -5,6 +5,7 @@ import { MainScreen } from "./screens/MainScreen";
 import { UploadScreen } from "./screens/UploadScreen";
 import { useState } from "react";
 import { ObjectsScreen } from "./screens/ObjectsScreen";
+import { ResultScreen } from "./screens/ResultScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
           {(props) => <UploadScreen {...props} imageUri={imageUri} setImageUri={setImageUri} />}
         </Stack.Screen>
         <Stack.Screen name="Objects" component={ObjectsScreen} />
+        <Stack.Screen name="Result" component={ResultScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

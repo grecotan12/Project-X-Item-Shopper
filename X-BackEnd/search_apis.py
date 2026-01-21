@@ -10,10 +10,12 @@ import boto3
 import json
 from pydantic import BaseModel
 from html_cleaner import HtmlCleaner
+import http.client
 
 app = FastAPI()
 
 # TESTING
+
 
 s3 = boto3.client(
     "s3",
@@ -33,8 +35,8 @@ async def recognize(file: UploadFile = File( ... )):
     return detector.crop_objects(contents)
 
 
-@app.post("/searchImage")
-async def searchImage(file: UploadFile = File( ... )):
+@app.post("/searchImage/{category}")
+async def searchImage(category: str, file: UploadFile = File( ... )):
     # api_key = os.getenv("SERPAPI_KEY")
 
     contents = await file.read()
@@ -45,7 +47,7 @@ async def searchImage(file: UploadFile = File( ... )):
     img = cv2.resize(img, (1024, int(img.shape[0] * 1024 / img.shape[1])))
     _, buffer = cv2.imencode(".jpg", img, [cv2.IMWRITE_JPEG_QUALITY, 80])
 
-    key = f"lens/{uuid.uuid4().hex}.jpg"
+    key = f"lens/{category}/{uuid.uuid4().hex}.jpg"
 
     s3.put_object(
         Bucket=AWS_S3_BUCKET,
@@ -57,25 +59,18 @@ async def searchImage(file: UploadFile = File( ... )):
 
     image_url = f"https://{AWS_S3_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{key}"
 
-    params = {
-        "engine": "google_lens",
-        "type": "products",
-        "url": image_url,
-        "api_key": SERPAPI_KEY
+    conn = http.client.HTTPSConnection("google.serper.dev")
+    payload = json.dumps({
+        "url": image_url
+    })
+    headers = {
+        'X-API-KEY': SERPDEV_API_KEY,
+        'Content-Type': 'application/json'
     }
-
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    if "visual_matches" not in results:
-        return "NOT FOUND"
-    visual_matches = results["visual_matches"]
-    return visual_matches
-
-@app.get("/test")
-async def getTest():
-    with open("search_test.json", 'r', encoding="utf-8") as file:
-        data = json.load(file)
-    return data["visual_matches"]
+    conn.request("POST", "/lens", payload, headers)
+    res = conn.getresponse()
+    data = json.loads(res.read().decode("utf-8"))
+    return data["organic"]
 
 class URLPayLoad(BaseModel):
     url: str
