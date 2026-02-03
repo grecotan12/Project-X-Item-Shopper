@@ -4,7 +4,8 @@ import { CollapseCard } from "../components/CollapseCard";
 
 export const ResultScreen = () => {
     const route = useRoute();
-    const { searchResult } = route.params;
+    const { searchResult, llm } = route.params;
+    console.log(llm)
     return (
         <View style={{ flex: 1, padding: 20 }}>
             <FlatList

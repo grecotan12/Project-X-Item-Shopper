@@ -1,13 +1,18 @@
 import * as ImagePicker from 'expo-image-picker';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image, TextInput } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { File } from 'expo-file-system';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import * as ImageManipulator from "expo-image-manipulator";
+import { useState } from 'react';
+import { GetCategory } from '../components/GetCategory';
 
-export const UploadScreen = ({ imageUri, setImageUri }) => {
+export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
     const navigation = useNavigation();
+    const [category, setCategory] = useState("");
+    const [showCategory, setShowCategory] = useState(false);
+    const [error, setError] = useState("");
 
     const pickImage = async () => {
         const res = await ImagePicker.launchImageLibraryAsync({
@@ -50,7 +55,7 @@ export const UploadScreen = ({ imageUri, setImageUri }) => {
             type: "image/jpeg"
         });
         try {
-            const res = await axios.post("http://192.168.1.237:8000/recognize",
+            const res = await axios.post("http://192.168.133.177:8000/recognize",
                 formData,
                 {
                     headers: {
@@ -76,31 +81,8 @@ export const UploadScreen = ({ imageUri, setImageUri }) => {
         }
     }
 
-    const chooseObject = async () => {
-        if (!imageUri) return;
-        const formData = new FormData();
-
-        formData.append("file", {
-            uri: imageUri,
-            name: "upload.jpg",
-            type: "image/jpeg"
-        });
-        try {
-            const res = await axios.post(`http://192.168.1.237:8000/searchImage/unclassified`,
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-            const data = res.data;
-            navigation.navigate('Result', {
-                searchResult: data
-            })
-        } catch (error) {
-            console.log(error);
-        }
+    const getCat = async () => {
+        setShowCategory(!showCategory);
     }
 
     return (
@@ -119,11 +101,14 @@ export const UploadScreen = ({ imageUri, setImageUri }) => {
                     <TouchableOpacity style={[styles.btnStyle, btnStyles.objectBtn]} onPress={unGroup}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="object-ungroup" size={32} color="white" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.wholeBtn]} onPress={chooseObject}>
+                    <TouchableOpacity style={[styles.btnStyle, btnStyles.wholeBtn]} onPress={getCat}>
                         <Text style={styles.btnTextStyle}><FontAwesome name="search" size={32} color="white" /></Text>
                     </TouchableOpacity>
                 </View>
             </View>
+            {showCategory &&
+                <GetCategory category={category} setCategory={setCategory} getCat={getCat} imageUri={imageUri} error={error} setError={setError} />
+            }
         </View>
     )
 }
@@ -194,5 +179,5 @@ const styles = StyleSheet.create({
     takeBtn: {
         backgroundColor: 'green',
         padding: 16,
-    }
+    },
 });

@@ -17,7 +17,7 @@ export const ObjectsScreen = () => {
             type: "image/jpeg"
         });
         try {
-            const res = await axios.post(`http://192.168.1.237:8000/searchImage/${object}`, 
+            const res = await axios.post(`http://192.168.133.177:8000/searchImage/${object}`, 
                 formData,
                 {
                     headers: {
