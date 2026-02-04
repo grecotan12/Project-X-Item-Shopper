@@ -1,39 +1,6 @@
 import { StyleSheet, View, TouchableOpacity, TextInput, Text } from 'react-native';
 
-export const GetCategory = ({ category, setCategory, getCat, imageUri, error, setError }) => {
-    const chooseObject = async () => {
-        if (category.includes(" ")) {
-            setError("Please enter only one word");
-            return;
-        } else {
-            setError("");
-        }
-        if (!imageUri) return;
-        const formData = new FormData();
-
-        formData.append("file", {
-            uri: imageUri,
-            name: "upload.jpg",
-            type: "image/jpeg"
-        });
-        try {
-            const res = await axios.post(`http://192.168.133.177:8000/searchImage/${category}`,
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-            const data = res.data;
-            navigation.navigate('Result', {
-                searchResult: data
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
+export const GetCategory = ({ category, setCategory, getCat, chooseObject, error }) => {
     return (
         <View style={styles.categoryContainer}>
             <TextInput

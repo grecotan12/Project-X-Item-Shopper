@@ -17,7 +17,7 @@ export const ObjectsScreen = () => {
             type: "image/jpeg"
         });
         try {
-            const res = await axios.post(`http://192.168.133.177:8000/searchImage/${object}`, 
+            const res = await axios.post(`https://ellie-unhoarding-unverminously.ngrok-free.dev/searchImage/${object}`, 
                 formData,
                 {
                     headers: {
@@ -25,9 +25,12 @@ export const ObjectsScreen = () => {
                     },
                 }
             );
-            const data = res.data;
+            const data = res.data?.organic;
+            const userId = res.data?.user_id;
             navigation.navigate('Result', {
-                searchResult: data
+                searchResult: data,
+                userId: userId,
+                category: object
             })
         } catch (error) {
             console.log(error);

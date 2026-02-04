@@ -60,7 +60,7 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
             type: "image/jpeg"
         });
         try {
-            const res = await axios.post("http://192.168.133.177:8000/recognize",
+            const res = await axios.post("https://ellie-unhoarding-unverminously.ngrok-free.dev/recognize",
                 formData,
                 {
                     headers: {
@@ -90,6 +90,46 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
         setShowCategory(!showCategory);
     }
 
+    const chooseObject = async () => {
+        if (category.includes(" ")) {
+            setError("Please enter only one word");
+            return;
+        }
+        else if (!imageUri) {
+            setError("Please capture picture");
+            return;
+        }
+        else {
+            setError("");
+        }
+        const formData = new FormData();
+
+        formData.append("file", {
+            uri: imageUri,
+            name: "upload.jpg",
+            type: "image/jpeg"
+        });
+        try {
+            const res = await axios.post(`https://ellie-unhoarding-unverminously.ngrok-free.dev/searchImage/${category}`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            const data = res.data?.organic;
+            const userId = res.data?.user_id;
+            navigation.navigate('Result', {
+                searchResult: data,
+                userId: userId, 
+                category: category
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.cameraContainer}>
@@ -113,7 +153,7 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
                 {/* <Image source={{ uri: `data:image/jpeg;base64,${test}`}} style={{ width: 200, height: 200 }} /> */}
             </View>
             {showCategory &&
-                <GetCategory category={category} setCategory={setCategory} getCat={getCat} imageUri={imageUri} error={error} />
+                <GetCategory category={category} setCategory={setCategory} getCat={getCat} chooseObject={chooseObject} error={error} />
             }
         </View>
     )
