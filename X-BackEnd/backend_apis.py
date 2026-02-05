@@ -138,3 +138,7 @@ async def saveRes(user_id: int, category: str, res: List[SearchRes]):
         
         else:
             db_ops.insert_search_res(info, category, user_id, info.imageUrl)
+
+@app.get("/getTurns/{credits}")
+async def getTurns(credits: int):
+    return db_ops.get_rem_times(credits)

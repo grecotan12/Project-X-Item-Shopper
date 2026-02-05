@@ -6,6 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { GetCategory } from '../components/GetCategory';
+import { Turns } from "../components/Turns";
 
 export const CameraScreen = ({ imageUri, setImageUri }) => {
     const [permission, requestPermission] = useCameraPermissions();
@@ -132,6 +133,7 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
 
     return (
         <View style={styles.container}>
+            <Turns />
             <View style={styles.cameraContainer}>
                 <Text style={styles.title}>Current Image</Text>
                 {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture} /> :

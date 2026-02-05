@@ -3,6 +3,7 @@ import { FlatList, View } from "react-native"
 import { CollapseCard } from "../components/CollapseCard";
 import { useEffect } from "react";
 import axios from 'axios';
+import { Turns } from "../components/Turns";
 
 export const ResultScreen = () => {
     const route = useRoute();
@@ -31,6 +32,7 @@ export const ResultScreen = () => {
 
     return (
         <View style={{ flex: 1, padding: 20 }}>
+            <Turns />
             <FlatList
                 data={searchResult}
                 keyExtractor={(item, index) => item.id ?? index.toString()}

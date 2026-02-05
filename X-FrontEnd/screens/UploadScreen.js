@@ -7,6 +7,7 @@ import axios from 'axios';
 import * as ImageManipulator from "expo-image-manipulator";
 import { useState } from 'react';
 import { GetCategory } from '../components/GetCategory';
+import { Turns } from "../components/Turns";
 
 export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
     const navigation = useNavigation();
@@ -127,6 +128,7 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
     }
     return (
         <View style={styles.container}>
+            <Turns />
             <View style={styles.cameraContainer}>
                 <Text style={styles.title}>Current Image</Text>
                 {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture} /> :

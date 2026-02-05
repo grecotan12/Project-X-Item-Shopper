@@ -33,6 +33,13 @@ class DatabaseOps:
         );
         """)
 
+        self.cursor.execute("""
+        CREATE TABLE IF NOT EXISTS serper_usage (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """)
+
     def insert_user_upload(self, image_url, category):
         self.cursor.execute(
             "INSERT INTO user_info (image_upload, category) VALUES (?, ?)",
@@ -47,3 +54,15 @@ class DatabaseOps:
             (info.title, info.source, info.link, s3_url, category, user_id,)
         )
         self.conn.commit()
+
+    def record_serper_call(self):
+        self.cursor.execute("INSERT INTO serper_usage DEFAULT VALUES")
+        self.conn.commit()
+
+    def get_rem_times(self, curr):
+        self.cursor.execute("SELECT COUNT(*) FROM serper_usage")
+        used = self.cursor.fetchone()[0]
+        real_curr = curr // 3 # Take 3 credits per visual search
+        return real_curr - used
+
+        

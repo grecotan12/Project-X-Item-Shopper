@@ -2,6 +2,7 @@ import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity } from "react
 import { useRoute } from "@react-navigation/native"
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import { Turns } from "../components/Turns";
 
 export const ObjectsScreen = () => {
     const route = useRoute();
@@ -39,6 +40,7 @@ export const ObjectsScreen = () => {
 
     return (
         <View style={{ padding: 30 }}>
+            <Turns />
             <Text style={{ textAlign: "center", margin: 20 }}>Select Object You Want To Search For</Text>
             <FlatList
                 data={info}

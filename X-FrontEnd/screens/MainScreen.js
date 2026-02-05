@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 // import { initLlama } from "llama.rn";
 // import RNFS from 'react-native-fs'; // File system module
 import { useEffect } from "react";
+import { Turns } from "../components/Turns";
 
 export const MainScreen = ({ 
     // llm, setLLM 
@@ -50,6 +51,7 @@ export const MainScreen = ({
     return (
         <>
             <Title />
+            <Turns />
             <View style={styles.mainContainer}>
                 <TouchableOpacity style={[styles.btnStyle, styles.takeBtn]} onPress={camScreen}>
                     <Text style={styles.btnTextStyle}><FontAwesome name="camera" size={32} color="white" /></Text>
