@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image, TextInput } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { File } from 'expo-file-system';
 import { useNavigation } from '@react-navigation/native';
@@ -8,6 +8,9 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { useState } from 'react';
 import { GetCategory } from '../components/GetCategory';
 import { Turns } from "../components/Turns";
+import { Star } from "../components/Star";
+
+const { width, height } = Dimensions.get('window');
 
 export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
     const navigation = useNavigation();
@@ -126,11 +129,22 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             console.log(error);
         }
     }
+
+    const stars = [...Array(40)].map(() => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 5 + 4,
+        duration: Math.random() * 1000 + 500,
+    }));
+
     return (
         <View style={styles.container}>
+            {stars.map((star, i) => (
+                <Star key={i} {...star} />
+            ))}
             <Turns />
             <View style={styles.cameraContainer}>
-                <Text style={styles.title}>Current Image</Text>
+                <Text style={styles.title}>Chosen Image</Text>
                 {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture} /> :
                     <View style={styles.cameraCapture} />}
                 <View style={styles.btnContainer}>
@@ -149,7 +163,7 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
                 </View>
             </View>
             {showCategory &&
-                <GetCategory category={category} setCategory={setCategory} getCat={getCat} chooseObject={chooseObject} error={error}/>
+                <GetCategory category={category} setCategory={setCategory} getCat={getCat} chooseObject={chooseObject} error={error} />
             }
         </View>
     )
@@ -173,7 +187,7 @@ const btnStyles = StyleSheet.create({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#000',
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
@@ -195,13 +209,14 @@ const styles = StyleSheet.create({
         width: 300,
         borderRadius: 20,
         overflow: 'hidden',
-        backgroundColor: 'beige'
+        backgroundColor: 'rgba(211,188,141,0.3)'
     },
     title: {
         textAlign: 'center',
         marginBottom: 10,
         fontWeight: 'bold',
-        fontSize: 24
+        fontSize: 24,
+        color: 'white'
     },
     btnStyle: {
         width: 'auto',

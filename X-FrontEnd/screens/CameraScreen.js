@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useState, useRef } from 'react';
 import { File } from 'expo-file-system';
@@ -7,6 +7,9 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { GetCategory } from '../components/GetCategory';
 import { Turns } from "../components/Turns";
+import { Star } from "../components/Star";
+
+const { width, height } = Dimensions.get('window');
 
 export const CameraScreen = ({ imageUri, setImageUri }) => {
     const [permission, requestPermission] = useCameraPermissions();
@@ -131,11 +134,21 @@ export const CameraScreen = ({ imageUri, setImageUri }) => {
         }
     }
 
+    const stars = [...Array(40)].map(() => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 5 + 4,
+        duration: Math.random() * 1000 + 500,
+    }));
+
     return (
         <View style={styles.container}>
+            {stars.map((star, i) => (
+                <Star key={i} {...star} />
+            ))}
             <Turns />
             <View style={styles.cameraContainer}>
-                <Text style={styles.title}>Current Image</Text>
+                <Text style={styles.title}>Chosen Image</Text>
                 {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture} /> :
                     <CameraView ref={cameraRef} style={styles.cameraCapture} />}
                 <View style={styles.btnContainer}>
@@ -180,7 +193,7 @@ const btnStyles = StyleSheet.create({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#000',
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
@@ -207,7 +220,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 10,
         fontWeight: 'bold',
-        fontSize: 24
+        fontSize: 24,
+        fontFamily: 'Title-Font',
+        color: 'white'
     },
     btnStyle: {
         width: 'auto',

@@ -8,7 +8,8 @@
           "microphonePermission": "Allow  X-Project to access your microphone",
           "recordAudioAndroid": true
         }
-      ]
+      ],
+      "expo-font"
     ],
     "name": "X-FrontEnd",
     "slug": "X-FrontEnd",

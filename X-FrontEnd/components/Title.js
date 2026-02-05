@@ -1,22 +1,25 @@
 import { View, Text, StyleSheet } from "react-native"
 
 export const Title = () => {
-    return(
+
+    return (
         <View style={styles.titleContainer}>
-            <Text style={styles.title}>X Project</Text>
+            <Text style={styles.title}>Visuo</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     titleContainer: {
-        width: 'auto',
+        width: '100%',
         height: 100,
-        backgroundColor: "beige",
-        justifyContent: 'center',
-    }, 
+        padding: 16
+    },
     title: {
-        fontSize: 36,
-        textAlign: 'center'
-    }
+        fontFamily: 'Title-Font',
+        fontSize: 48,
+        textAlign: 'center',
+        zIndex: 2,
+        color: "beige"
+    },
 })

@@ -42,26 +42,30 @@ const styles = StyleSheet.create({
         top: 10,
         right: 10,
         padding: 16,
-        backgroundColor: "#8484C4"
+        backgroundColor: "rgba(211, 211, 211, 1)",
+        borderRadius: 10,
+        zIndex: 10
     },
     msgContainer: {
         position: "absolute",
-        top: 100,
+        top: 70,
         right: 0,
         padding: 16,
         backgroundColor: "#C4A484",
-        zIndex: 10,
+        zIndex: 2,
         margin: 10,
         borderRadius: 10
     },
     turnsText: {
-        color: "white",
+        color: "black",
         fontSize: 20,
-        textAlign: "center"
+        textAlign: "center",
+        fontFamily: 'Title-Font'
     },
     msgText: {
         color: "white",
-        fontSize: 10,
-        textAlign: "center"
+        fontSize: 16,
+        textAlign: "center",
+        fontFamily: 'Normal-Font'
     }
 })

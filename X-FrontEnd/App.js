@@ -6,18 +6,45 @@ import { UploadScreen } from "./screens/UploadScreen";
 import { useEffect, useState } from "react";
 import { ObjectsScreen } from "./screens/ObjectsScreen";
 import { ResultScreen } from "./screens/ResultScreen";
-import axios from 'axios';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
 const Stack = createNativeStackNavigator();
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [imageUri, setImageUri] = useState(null);
-  const [backendIp, setBackendIp] = useState("");
   // const [llm, setLLM] = useState(null);
+  const [imageUri, setImageUri] = useState(null);
+
+  const [fontsLoaded] = useFonts({
+    'Title-Font': require('./assets/fonts/Title-Font.ttf'),
+    'Normal-Font': require('./assets/fonts/Normal-Font.ttf')
+  });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded])
+
+  if (!fontsLoaded) {
+    // Add loading component later
+    return null;
+  }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Home"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#29518c"
+        },
+        headerTitleStyle: {
+          fontFamily: 'Title-Font',
+          color: 'white'
+        }
+      }}
+      >
         <Stack.Screen name="Home">
           {(props) => <MainScreen {...props}
           // llm={llm} setLLM={setLLM} 
