@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { GetCategory } from '../components/GetCategory';
 import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
+import { Loading } from '../components/Loading';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,6 +18,7 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
     const [category, setCategory] = useState("");
     const [showCategory, setShowCategory] = useState(false);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const pickImage = async () => {
         const res = await ImagePicker.launchImageLibraryAsync({
@@ -50,7 +52,7 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
 
     const unGroup = async () => {
         if (!imageUri) return;
-        console.log(imageUri)
+        setLoading(true);
         const formData = new FormData();
 
         formData.append("file", {
@@ -76,11 +78,12 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
                     pic: detections[key][0].image
                 })
             }
+            setLoading(false);
             navigation.navigate('Objects', {
                 info: finalList
             })
         } catch (error) {
-            // console.log(error);
+            setLoading(false);
             console.log(error);
         }
     }
@@ -101,6 +104,7 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
         else {
             setError("");
         }
+        setLoading(true);
         const formData = new FormData();
 
         formData.append("file", {
@@ -119,13 +123,14 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             );
             const data = res.data?.organic;
             const userId = res.data?.user_id;
-
+            setLoading(false);
             navigation.navigate('Result', {
                 searchResult: data,
                 userId: userId,
                 category: category
             })
         } catch (error) {
+            setLoading(false);
             console.log(error);
         }
     }
@@ -142,29 +147,32 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}
-            <Turns />
-            <View style={styles.cameraContainer}>
-                <Text style={styles.title}>Chosen Image</Text>
-                {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture} /> :
-                    <View style={styles.cameraCapture} />}
-                <View style={styles.btnContainer}>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.takeBtn]} onPress={pickImage}>
-                        <Text style={styles.btnTextStyle}><FontAwesome name="photo" size={32} color="white" /></Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.retakeBtn]} onPress={clearPic}>
-                        <Text style={styles.btnTextStyle}><FontAwesome name="rotate-left" size={32} color="white" /></Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.objectBtn]} onPress={unGroup}>
-                        <Text style={styles.btnTextStyle}><FontAwesome name="object-ungroup" size={32} color="white" /></Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btnStyle, btnStyles.wholeBtn]} onPress={getCat}>
-                        <Text style={styles.btnTextStyle}><FontAwesome name="search" size={32} color="white" /></Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            {showCategory &&
-                <GetCategory category={category} setCategory={setCategory} getCat={getCat} chooseObject={chooseObject} error={error} />
-            }
+            {loading ? <Loading /> :
+                <>
+                    <Turns />
+                    <View style={styles.cameraContainer}>
+                        <Text style={styles.title}>Chosen Image</Text>
+                        {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture} /> :
+                            <View style={styles.cameraCapture} />}
+                        <View style={styles.btnContainer}>
+                            <TouchableOpacity style={[styles.btnStyle, btnStyles.takeBtn]} onPress={pickImage}>
+                                <Text style={styles.btnTextStyle}><FontAwesome name="photo" size={32} color="white" /></Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.btnStyle, btnStyles.retakeBtn]} onPress={clearPic}>
+                                <Text style={styles.btnTextStyle}><FontAwesome name="rotate-left" size={32} color="white" /></Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.btnStyle, btnStyles.objectBtn]} onPress={unGroup}>
+                                <Text style={styles.btnTextStyle}><FontAwesome name="object-ungroup" size={32} color="white" /></Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.btnStyle, btnStyles.wholeBtn]} onPress={getCat}>
+                                <Text style={styles.btnTextStyle}><FontAwesome name="search" size={32} color="white" /></Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    {showCategory &&
+                        <GetCategory category={category} setCategory={setCategory} getCat={getCat} chooseObject={chooseObject} error={error} />
+                    }
+                </>}
         </View>
     )
 }

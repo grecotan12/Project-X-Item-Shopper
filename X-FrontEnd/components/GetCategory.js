@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         // justifyContent: "center",
         // alignItems: "center",
         width: 300,
-        backgroundColor: "lightblue",
+        backgroundColor: "rgba(173, 216, 230, 0.5)",
         borderRadius: 16,
         boxShadow: "2px 4px gray",
         padding: 16
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     },
     btnTextStyle: {
         textAlign: 'center',
-        color: "white"
+        color: "white",
+        fontFamily: 'Normal-Font'
     },
     btnContainer: {
         marginTop: 16,
@@ -68,6 +69,7 @@ const styles = StyleSheet.create({
         borderColor: "#ccc",
         padding: 8,
         borderRadius: 8,
-        backgroundColor: "white"
+        backgroundColor: "white",
+        fontFamily: 'Title-Font'
     }
 })
