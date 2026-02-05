@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 
 export const Turns = () => {
-    const [turns, setTurns] = useState(0);
+    const [turns, setTurns] = useState(800);
     const [msg, setMsg] = useState(true);
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     },
     turnsText: {
         color: "black",
-        fontSize: 20,
+        fontSize: 16,
         textAlign: "center",
         fontFamily: 'Title-Font'
     },

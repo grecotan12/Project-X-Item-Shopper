@@ -216,7 +216,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         fontWeight: 'bold',
         fontSize: 24,
-        color: 'white'
+        color: 'white',
+        fontFamily: 'Title-Font'
     },
     btnStyle: {
         width: 'auto',
