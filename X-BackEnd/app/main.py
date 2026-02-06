@@ -9,7 +9,6 @@ import uuid
 import boto3
 import json
 import http.client
-import os
 from database_ops import DatabaseOps
 import requests
 from pydantic import BaseModel
