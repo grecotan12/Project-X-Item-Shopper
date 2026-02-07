@@ -9,7 +9,7 @@ export const Turns = () => {
     useEffect(() => {
         const getTurns = async () => {
             try {
-                const res = await axios.get("https://ellie-unhoarding-unverminously.ngrok-free.dev/getTurns/2305");
+                const res = await axios.get("https://api.dosguardx.com/getTurns/2305");
                 setTurns(res.data);
             } catch (error) {
                 console.log(error);

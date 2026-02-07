@@ -61,7 +61,7 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             type: "image/jpeg"
         });
         try {
-            const res = await axios.post("https://ellie-unhoarding-unverminously.ngrok-free.dev/recognize",
+            const res = await axios.post("https://api.dosguardx.com/recognize",
                 formData,
                 {
                     headers: {
@@ -113,7 +113,7 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             type: "image/jpeg"
         });
         try {
-            const res = await axios.post(`https://ellie-unhoarding-unverminously.ngrok-free.dev/searchImage/${category}`,
+            const res = await axios.post(`https://api.dosguardx.com/searchImage/${category}`,
                 formData,
                 {
                     headers: {

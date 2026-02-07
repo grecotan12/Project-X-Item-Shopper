@@ -24,7 +24,7 @@ export const ObjectsScreen = () => {
             type: "image/jpeg"
         });
         try {
-            const res = await axios.post(`https://ellie-unhoarding-unverminously.ngrok-free.dev/searchImage/${object}`,
+            const res = await axios.post(`https://api.dosguardx.com/searchImage/${object}`,
                 formData,
                 {
                     headers: {

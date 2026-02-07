@@ -17,7 +17,7 @@ export const ResultScreen = () => {
     useEffect(() => {
         const saveRes = async () => {
             try {
-                await axios.post(`https://ellie-unhoarding-unverminously.ngrok-free.dev/saveRes/${userId}/${category}`,
+                await axios.post(`https://api.dosguardx.com/saveRes/${userId}/${category}`,
                     searchResult,
                     {
                         headers: {
