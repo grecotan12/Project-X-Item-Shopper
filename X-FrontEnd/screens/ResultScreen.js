@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import axios from 'axios';
 import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
+import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get('window');
 export const ResultScreen = () => {
@@ -16,11 +17,13 @@ export const ResultScreen = () => {
 
     useEffect(() => {
         const saveRes = async () => {
+            const token = await SecureStore.getItemAsync("device_token");
             try {
                 await axios.post(`https://api.dosguardx.com/saveRes/${userId}/${category}`,
                     searchResult,
                     {
                         headers: {
+                            "Authorization": `Bearer ${token}`,
                             "Content-Type": "application/json",
                         },
                     }

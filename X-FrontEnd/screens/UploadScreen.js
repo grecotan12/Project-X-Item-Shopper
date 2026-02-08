@@ -10,6 +10,7 @@ import { GetCategory } from '../components/GetCategory';
 import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
 import { Loading } from '../components/Loading';
+import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get('window');
 
@@ -60,11 +61,13 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             name: "upload.jpg",
             type: "image/jpeg"
         });
+        const token = await SecureStore.getItemAsync("device_token");
         try {
             const res = await axios.post("https://api.dosguardx.com/recognize",
                 formData,
                 {
                     headers: {
+                        "Authorization": `Bearer ${token}`,
                         "Content-Type": "multipart/form-data",
                     },
                 }
@@ -112,11 +115,13 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             name: "upload.jpg",
             type: "image/jpeg"
         });
+        const token = await SecureStore.getItemAsync("device_token");
         try {
             const res = await axios.post(`https://api.dosguardx.com/searchImage/${category}`,
                 formData,
                 {
                     headers: {
+                        "Authorization": `Bearer ${token}`,
                         "Content-Type": "multipart/form-data",
                     },
                 }

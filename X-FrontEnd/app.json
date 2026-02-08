@@ -9,7 +9,8 @@
           "recordAudioAndroid": true
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-secure-store"
     ],
     "name": "X-FrontEnd",
     "slug": "X-FrontEnd",

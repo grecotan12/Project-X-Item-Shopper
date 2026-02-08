@@ -8,6 +8,8 @@ import { ObjectsScreen } from "./screens/ObjectsScreen";
 import { ResultScreen } from "./screens/ResultScreen";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import * as SecureStore from "expo-secure-store";
+import axios from 'axios';
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -15,6 +17,19 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   // const [llm, setLLM] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+
+  useEffect(() => {
+    const registerDev = async () => {
+      let token = await SecureStore.getItemAsync("device_token");
+
+      if (!token) {
+        const res = await axios.post("https://api.dosguardx.com/register-device");
+        const data = await res.data;
+        await SecureStore.setItemAsync("device_token", data.token);
+      }
+    }
+    registerDev();
+  }, [])
 
   const [fontsLoaded] = useFonts({
     'Title-Font': require('./assets/fonts/Title-Font.ttf'),
@@ -35,15 +50,15 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home"
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#29518c"
-        },
-        headerTitleStyle: {
-          fontFamily: 'Title-Font',
-          color: 'white'
-        }
-      }}
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#29518c"
+          },
+          headerTitleStyle: {
+            fontFamily: 'Title-Font',
+            color: 'white'
+          }
+        }}
       >
         <Stack.Screen name="Home">
           {(props) => <MainScreen {...props}

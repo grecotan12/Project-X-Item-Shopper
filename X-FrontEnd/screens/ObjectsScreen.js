@@ -6,6 +6,7 @@ import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
 import { useState } from "react";
 import { Loading } from '../components/Loading';
+import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get('window');
 export const ObjectsScreen = () => {
@@ -23,11 +24,13 @@ export const ObjectsScreen = () => {
             name: "upload.jpg",
             type: "image/jpeg"
         });
+        const token = await SecureStore.getItemAsync("device_token");
         try {
             const res = await axios.post(`https://api.dosguardx.com/searchImage/${object}`,
                 formData,
                 {
                     headers: {
+                        "Authorization": `Bearer ${token}`,
                         "Content-Type": "multipart/form-data",
                     },
                 }

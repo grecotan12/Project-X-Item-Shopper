@@ -39,9 +39,7 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
                             style={{ height: 150, width: 150, borderRadius: 10 }} />
 
                         {fail &&
-                            <Image source={require('../assets/fall_back.png')}
-                                onError={() => setFail(true)}
-                                style={{ height: 150, width: 150, borderRadius: 10 }} />
+                            <Text style={{ fontFamily: 'Title-Font', textAlign: 'center', color: 'red' }}>Unable to Fetch Image</Text>
                         }
                     </View>
 
