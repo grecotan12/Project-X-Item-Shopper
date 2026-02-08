@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
+import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get('window');
 export const MainScreen = ({
@@ -65,6 +66,9 @@ export const MainScreen = ({
             <Title />
             <Turns /> 
             <View style={styles.btnContainer}>
+                {/* <TouchableOpacity style={[styles.btnStyle, styles.takeBtn]} onPress={async () => await SecureStore.deleteItemAsync("device_token")}>
+                    <Text style={styles.btnTextStyle}>DEV: Clear Token</Text>
+                </TouchableOpacity> */}
                 <TouchableOpacity style={[styles.btnStyle, styles.takeBtn]} onPress={camScreen}>
                     <Text style={styles.btnTextStyle}><FontAwesome name="camera" size={32} color="white" /></Text>
                 </TouchableOpacity>
