@@ -12,7 +12,7 @@ const { width, height } = Dimensions.get('window');
 export const ObjectsScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
-    const { info } = route.params;
+    const { info, turns, setTurns } = route.params;
     const [loading, setLoading] = useState(false);
 
     const chooseObject = async (object, img) => {
@@ -41,7 +41,9 @@ export const ObjectsScreen = () => {
             navigation.navigate('Result', {
                 searchResult: data,
                 userId: userId,
-                category: object
+                category: object,
+                turns: turns,
+                setTurns: setTurns
             })
         } catch (error) {
             setLoading(false);
@@ -63,7 +65,7 @@ export const ObjectsScreen = () => {
             ))}
             {loading ? <Loading /> :
                 <>
-                    <Turns />
+                    <Turns turns={turns} setTurns={setTurns} />
                     <Text style={{ color: 'white', textAlign: "center", margin: 36, fontFamily: 'Title-Font', fontSize: 20 }}>Select Object You Want To Search For</Text>
                     <FlatList
                         style={{ marginTop: 12 }}

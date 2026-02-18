@@ -14,7 +14,7 @@ import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get('window');
 
-export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
+export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
     const navigation = useNavigation();
     const [category, setCategory] = useState("");
     const [showCategory, setShowCategory] = useState(false);
@@ -83,7 +83,9 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             }
             setLoading(false);
             navigation.navigate('Objects', {
-                info: finalList
+                info: finalList,
+                turns: turns,
+                setTurns: setTurns
             })
         } catch (error) {
             setLoading(false);
@@ -132,7 +134,9 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             navigation.navigate('Result', {
                 searchResult: data,
                 userId: userId,
-                category: category
+                category: category,
+                turns: turns,
+                setTurns: setTurns
             })
         } catch (error) {
             setLoading(false);
@@ -154,7 +158,7 @@ export const UploadScreen = ({ imageUri, setImageUri, llm }) => {
             ))}
             {loading ? <Loading /> :
                 <>
-                    <Turns />
+                    <Turns turns={turns} setTurns={setTurns} />
                     <View style={styles.cameraContainer}>
                         <Text style={styles.title}>Chosen Image</Text>
                         {imageUri ? <Image source={{ uri: imageUri }} style={styles.cameraCapture} /> :

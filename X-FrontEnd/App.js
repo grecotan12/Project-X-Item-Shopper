@@ -6,6 +6,7 @@ import { UploadScreen } from "./screens/UploadScreen";
 import { useEffect, useState } from "react";
 import { ObjectsScreen } from "./screens/ObjectsScreen";
 import { ResultScreen } from "./screens/ResultScreen";
+import { PageInfo } from "./screens/PageInfo";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SecureStore from "expo-secure-store";
@@ -17,6 +18,7 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   // const [llm, setLLM] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+  const [turns, setTurns] = useState(800);
 
   useEffect(() => {
     const registerDev = async () => {
@@ -61,26 +63,27 @@ export default function App() {
         }}
       >
         <Stack.Screen name="Home">
-          {(props) => <MainScreen {...props}
+          {(props) => <MainScreen {...props} turns={turns} setTurns={setTurns}
           // llm={llm} setLLM={setLLM} 
           />}
         </Stack.Screen>
         <Stack.Screen name="Camera">
-          {(props) => <CameraScreen {...props} imageUri={imageUri} setImageUri={setImageUri}
+          {(props) => <CameraScreen {...props} imageUri={imageUri} setImageUri={setImageUri} turns={turns} setTurns={setTurns}
           // llm={llm} 
           />}
         </Stack.Screen>
         <Stack.Screen name="Upload">
-          {(props) => <UploadScreen {...props} imageUri={imageUri} setImageUri={setImageUri}
+          {(props) => <UploadScreen {...props} imageUri={imageUri} setImageUri={setImageUri} turns={turns} setTurns={setTurns}
           //llm={llm} 
           />}
         </Stack.Screen>
         <Stack.Screen name="Objects" component={ObjectsScreen}
         // llm={llm} 
         />
-        <Stack.Screen name="Result" component={ResultScreen}
+        <Stack.Screen name="Result" component={ResultScreen} 
         // llm={llm} 
         />
+        <Stack.Screen name="PageInfo" component={PageInfo} />
       </Stack.Navigator>
     </NavigationContainer>
   );

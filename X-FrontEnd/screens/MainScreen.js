@@ -12,6 +12,8 @@ import * as SecureStore from "expo-secure-store";
 const { width, height } = Dimensions.get('window');
 export const MainScreen = ({
     // llm, setLLM 
+    turns,
+    setTurns
 }) => {
     const navigation = useNavigation();
 
@@ -64,7 +66,7 @@ export const MainScreen = ({
                 <Star key={i} {...star} />
             ))}
             <Title />
-            <Turns /> 
+            <Turns turns={turns} setTurns={setTurns} /> 
             <View style={styles.btnContainer}>
                 {/* <TouchableOpacity style={[styles.btnStyle, styles.takeBtn]} onPress={async () => await SecureStore.deleteItemAsync("device_token")}>
                     <Text style={styles.btnTextStyle}>DEV: Clear Token</Text>

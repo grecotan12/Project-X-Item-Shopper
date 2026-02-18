@@ -1,13 +1,13 @@
 import { useState, useRef } from 'react';
 import { View, Text, Pressable, Animated, StyleSheet, Linking, TouchableOpacity, Image } from 'react-native';
-// import FastImage from 'react-native-fast-image';
-// import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 export const CollapseCard = ({ title, source, link, imageUrl }) => {
     const [open, setOpen] = useState(false);
     const animatedHeight = useRef(new Animated.Value(0)).current;
     const contentHeight = useRef(0);
     const [fail, setFail] = useState(false);
+    const navigation = useNavigation();
 
     const toggle = () => {
         Animated.timing(animatedHeight, {
@@ -18,6 +18,12 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
 
         setOpen(!open);
     };
+
+    const getPageInfo = () => {
+        navigation.navigate('PageInfo', {
+            link: link
+        });
+    }
 
     return (
         <View style={styles.card}>
@@ -48,6 +54,11 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
                     <Pressable onPress={() => Linking.openURL(link)}>
                         <Text style={{ color: 'blue', fontFamily: 'Normal-Font' }}>{link}</Text>
                     </Pressable>
+
+                    <TouchableOpacity onPress={getPageInfo} style={[btnStyles.glanceBtn, styles.btnStyle]}>
+                        <Text style={[btnStyles.glanceText, styles.btnTextStyle]}>Glance</Text>
+                    </TouchableOpacity>
+
                 </View>
             </Animated.View>
         </View>
@@ -56,8 +67,11 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
 
 const btnStyles = StyleSheet.create({
     glanceBtn: {
-        backgroundColor: "blue"
+        backgroundColor: 'rgba(17,17,132,0.2)'
     },
+    glanceText: {
+        fontFamily: 'Title-Font',
+    }
 });
 
 const styles = StyleSheet.create({
@@ -83,6 +97,5 @@ const styles = StyleSheet.create({
     btnTextStyle: {
         fontSize: 16,
         textAlign: 'center',
-        color: "white"
     },
 });

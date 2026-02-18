@@ -2,8 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 
-export const Turns = () => {
-    const [turns, setTurns] = useState(800);
+export const Turns = ({ turns, setTurns }) => {
     const [msg, setMsg] = useState(true);
 
     useEffect(() => {
@@ -16,7 +15,7 @@ export const Turns = () => {
             }
         }
         getTurns();
-    }, [])
+    }, [turns])
 
     return (
         <>
@@ -28,7 +27,7 @@ export const Turns = () => {
             {msg &&
             <View style={styles.msgContainer}>
                 <Text style={styles.msgText}>Press the top right number to open/close this message.
-                    The number is the remain of credits the public can use, please use accordingly so 
+                    The number is the number of time left the public and you can use, please use accordingly so 
                     other users can use as well. Soon we will have unlimited search. We're sorry for the inconvience.</Text>
             </View>
             }

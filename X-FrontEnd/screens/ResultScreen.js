@@ -10,7 +10,7 @@ import * as SecureStore from "expo-secure-store";
 const { width, height } = Dimensions.get('window');
 export const ResultScreen = () => {
     const route = useRoute();
-    const { searchResult, userId, category
+    const { searchResult, userId, category, turns, setTurns
         // llm 
     } = route.params;
     // console.log(llm)
@@ -46,7 +46,7 @@ export const ResultScreen = () => {
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}
-            <Turns />
+            <Turns turns={turns} setTurns={setTurns} />
             <FlatList
                 data={searchResult}
                 keyExtractor={(item, index) => item.id ?? index.toString()}
