@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { SlidingText } from './SlidingText';
 
 export const NotFound = () => {
     return (
@@ -17,7 +18,12 @@ export const NotFound = () => {
                 loop
                 style={{ width: 300, height: 300 }}
             />
-            <Text style={{ color: "red", fontFamily: "Title-Font", fontSize: 16}}>Sorry we unable to get the page information. Please go to the link in browser.</Text>
+            <SlidingText 
+            msgs={[
+                "We have trouble getting website information",
+                "Please click on the link of the search result to access."
+            ]}
+            />
         </View>
     )
 }
