@@ -6,10 +6,8 @@ export const Loading = () => {
     return (
         <View
             style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
+                height: 350,
+                width: 350
             }}
         >
             <LottieView 
@@ -24,7 +22,7 @@ export const Loading = () => {
                 "Hang tight, we're cooking for you",
                 "Do you know we are the only free visual product search app?"
             ]}
-            duration={100} 
+            duration={800} 
             />
         </View>
     )

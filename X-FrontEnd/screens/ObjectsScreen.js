@@ -59,7 +59,7 @@ export const ObjectsScreen = () => {
     }));
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#000', padding: 30 }}>
+        <View style={{ flex: 1, backgroundColor: '#000', padding: 30, justifyContent: loading && "center" }}>
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}
@@ -86,7 +86,3 @@ export const ObjectsScreen = () => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-
-})

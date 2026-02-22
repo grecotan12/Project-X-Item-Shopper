@@ -47,9 +47,7 @@ export const PageInfo = () => {
                     setInfo(data);
                 }
                 setIsLoading(false);
-                console.log(data)
             } catch (error) {
-                console.log(error);
                 setIsErr(true);
                 setIsLoading(false);
             }
@@ -59,7 +57,9 @@ export const PageInfo = () => {
 
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#000', padding: 20 }}>
+        <View style={{ flex: 1, backgroundColor: '#000', padding: 20, 
+        justifyContent: (isLoading || isErr) && "center", 
+        alignItems: (isLoading || isErr) && "center" }}>
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}

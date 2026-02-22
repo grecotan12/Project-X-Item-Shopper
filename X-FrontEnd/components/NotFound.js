@@ -5,12 +5,6 @@ import { SlidingText } from './SlidingText';
 export const NotFound = () => {
     return (
         <View
-            style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-            }}
         >
             <LottieView 
                 source={require('../assets/animations/not_found.json')}
@@ -23,6 +17,7 @@ export const NotFound = () => {
                 "We have trouble getting website information",
                 "Please click on the link of the search result to access."
             ]}
+            duration={800}
             />
         </View>
     )

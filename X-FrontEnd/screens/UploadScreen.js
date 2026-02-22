@@ -11,6 +11,7 @@ import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
 import { Loading } from '../components/Loading';
 import * as SecureStore from "expo-secure-store";
+import { NoImageChosen } from '../components/NoImageChosen';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,6 +21,7 @@ export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
     const [showCategory, setShowCategory] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [noImageWarn, setNoImageWarn] = useState(true);
 
     const pickImage = async () => {
         const res = await ImagePicker.launchImageLibraryAsync({
@@ -52,7 +54,10 @@ export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
     }
 
     const unGroup = async () => {
-        if (!imageUri) return;
+        if (!imageUri) {
+            setNoImageWarn(false);
+            return;
+        }
         setLoading(true);
         const formData = new FormData();
 
@@ -152,10 +157,11 @@ export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
     }));
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { justifyContent: loading ? "center": "flex-start"}]}>
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}
+            {!noImageWarn && <NoImageChosen setNoImageWarn={setNoImageWarn}/>}
             {loading ? <Loading /> :
                 <>
                     <Turns turns={turns} setTurns={setTurns} />
@@ -205,8 +211,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#000',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     permissionContainer: {
         flex: 1,

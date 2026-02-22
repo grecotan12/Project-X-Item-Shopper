@@ -54,7 +54,7 @@ export const SlidingText = ({ msgs, duration}) => {
         >
             <Text style={{
                 fontFamily: "Title-Font",
-                color: "white"
+                color: "white",
             }}>{msgs[index]}</Text>
         </Animated.View>
     )
