@@ -1,13 +1,11 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { View, Text, Pressable, Animated, StyleSheet, Linking, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 export const CollapseCard = ({ title, source, link, imageUrl }) => {
     const [open, setOpen] = useState(false);
     const animatedHeight = useRef(new Animated.Value(0)).current;
     const contentHeight = useRef(0);
     const [fail, setFail] = useState(false);
-    const navigation = useNavigation();
 
     const toggle = () => {
         Animated.timing(animatedHeight, {
@@ -19,11 +17,19 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
         setOpen(!open);
     };
 
-    const getPageInfo = () => {
-        navigation.navigate('PageInfo', {
-            link: link
-        });
+    const validateImageUrl = async (url) => {
+        try {
+            const res = await fetch(url, {method: "HEAD"});
+            const contentType = res.headers.get("content-type");
+            return !(res.ok && contentType?.startsWith("image/"));
+        } catch {
+            return true;
+        }
     }
+
+    useEffect(() => {
+        validateImageUrl(imageUrl).then(setFail);
+    }, [imageUrl])
 
     return (
         <View style={styles.card}>
@@ -54,11 +60,6 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
                     <Pressable onPress={() => Linking.openURL(link)}>
                         <Text style={{ color: 'blue', fontFamily: 'Normal-Font' }}>{link}</Text>
                     </Pressable>
-
-                    <TouchableOpacity onPress={getPageInfo} style={[btnStyles.glanceBtn, styles.btnStyle]}>
-                        <Text style={[btnStyles.glanceText, styles.btnTextStyle]}>Glance</Text>
-                    </TouchableOpacity>
-
                 </View>
             </Animated.View>
         </View>

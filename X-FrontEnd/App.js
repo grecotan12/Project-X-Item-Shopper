@@ -6,7 +6,6 @@ import { UploadScreen } from "./screens/UploadScreen";
 import { useEffect, useState } from "react";
 import { ObjectsScreen } from "./screens/ObjectsScreen";
 import { ResultScreen } from "./screens/ResultScreen";
-import { PageInfo } from "./screens/PageInfo";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SecureStore from "expo-secure-store";
@@ -83,7 +82,6 @@ export default function App() {
         <Stack.Screen name="Result" component={ResultScreen} 
         // llm={llm} 
         />
-        <Stack.Screen name="PageInfo" component={PageInfo} />
       </Stack.Navigator>
     </NavigationContainer>
   );

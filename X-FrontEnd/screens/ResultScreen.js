@@ -10,10 +10,7 @@ import * as SecureStore from "expo-secure-store";
 const { width, height } = Dimensions.get('window');
 export const ResultScreen = () => {
     const route = useRoute();
-    const { searchResult, userId, category, turns, setTurns
-        // llm 
-    } = route.params;
-    // console.log(llm)
+    const { searchResult, userId, category, turns, setTurns } = route.params;
 
     useEffect(() => {
         const saveRes = async () => {
