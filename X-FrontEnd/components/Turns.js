@@ -10,6 +10,8 @@ export const Turns = ({ turns, setTurns }) => {
             try {
                 const res = await axios.get("https://api.dosguardx.com/getTurns");
                 setTurns(res.data);
+                // if turnLeft < 3
+                // setNoTurnleft(true)
             } catch (error) {
                 console.log(error);
             }
@@ -19,16 +21,14 @@ export const Turns = ({ turns, setTurns }) => {
 
     return (
         <>
-            <View style={styles.turnsContainer}>
+            <View style={[styles.turnsContainer, {backgroundColor: msg ? "rgba(211, 211, 211, 1)":  "#BA8E23",}]}>
                 <TouchableOpacity onPress={() => setMsg(!msg)}>
                     <Text style={styles.turnsText}>{turns}</Text>
                 </TouchableOpacity>
             </View>
             {msg &&
             <View style={styles.msgContainer}>
-                <Text style={styles.msgText}>Press the top right number to open/close this message.
-                    The number is the number of time left the public and you can use, please use accordingly so 
-                    other users can use as well. Soon we will have unlimited search. We're sorry for the inconvience.</Text>
+                <Text style={styles.msgText}>Limited Search</Text>
             </View>
             }
         </>
@@ -39,18 +39,17 @@ const styles = StyleSheet.create({
     turnsContainer: {
         position: "absolute",
         top: 10,
-        right: 10,
-        padding: 16,
-        backgroundColor: "rgba(211, 211, 211, 1)",
+        left: 10,
+        padding: 5,
         borderRadius: 10,
         zIndex: 10
     },
     msgContainer: {
         position: "absolute",
-        top: 70,
-        right: 0,
-        padding: 16,
-        backgroundColor: "#C4A484",
+        top: -3,
+        left: 50,
+        padding: 6,
+        backgroundColor: "rgba(211, 211, 211, 1)",
         zIndex: 2,
         margin: 10,
         borderRadius: 10
@@ -62,9 +61,9 @@ const styles = StyleSheet.create({
         fontFamily: 'Title-Font'
     },
     msgText: {
-        color: "white",
+        color: "black",
         fontSize: 16,
         textAlign: "center",
-        fontFamily: 'Normal-Font'
+        fontFamily: 'Normal-Font',
     }
 })

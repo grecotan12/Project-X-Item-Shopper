@@ -5,7 +5,7 @@ import { File } from 'expo-file-system';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import * as ImageManipulator from "expo-image-manipulator";
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { GetCategory } from '../components/GetCategory';
 import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
@@ -157,11 +157,11 @@ export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
     }));
 
     return (
-        <View style={[styles.container, { justifyContent: loading ? "center": "flex-start"}]}>
+        <View style={[styles.container, { justifyContent: loading ? "center" : "flex-start" }]}>
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}
-            {!noImageWarn && <NoImageChosen setNoImageWarn={setNoImageWarn}/>}
+            {!noImageWarn && <NoImageChosen setNoImageWarn={setNoImageWarn} />}
             {loading ? <Loading /> :
                 <>
                     <Turns turns={turns} setTurns={setTurns} />

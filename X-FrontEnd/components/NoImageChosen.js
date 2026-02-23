@@ -8,35 +8,36 @@ export const NoImageChosen = ({ setNoImageWarn }) => {
         <View
             style={{
                 position: 'absolute',
-                top: 100,
+                top: 150,
                 alignItems: 'center',
-                padding: 20,
-                backgroundColor: "navy",
+                padding: 16,
+                backgroundColor: "white",
                 margin: 16,
                 borderRadius: 10,
                 zIndex: 3,
-                height: 300,
-                width: 350
+                height: 225,
+                width: 250
             }}
         >
             <TouchableOpacity
                 style={styles.closeButton}
                 onPress={() => setNoImageWarn(true)}
             >
-                <Text><FontAwesome name="times" size={24} color="white" /></Text>
+                <Text><FontAwesome name="times" size={16} color="white" /></Text>
             </TouchableOpacity>
             <LottieView
                 source={require('../assets/animations/no_image.json')}
                 autoPlay
                 loop
-                style={{ width: 200, height: 200 }}
+                style={{ width: 150, height: 150 }}
             />
             <SlidingText
                 msgs={[
-                    "You haven't upload or capture an image.",
-                    "Please take a picture or upload an image first.",
+                    "Please take a picture or upload an image.",
+                    "Please take a picture or upload an image.",
                 ]}
-                duration={1500}
+                duration={600}
+                isWarning={true}
             />
         </View>
     )
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 16,
         right: 16,
-        padding: 16,
+        padding: 6,
         backgroundColor: "orange",
         borderRadius: 10
     },

@@ -16,7 +16,8 @@ export const MainScreen = ({
     setTurns
 }) => {
     const navigation = useNavigation();
-
+    const [noTurnLeft, setNoTurnLeft] = useState(false);
+     
     // useEffect(() => {
     //     const ensureModel = async () => {
     //         const dest = `${RNFS.DocumentDirectoryPath}/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf`;
@@ -65,8 +66,11 @@ export const MainScreen = ({
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}
+            <TouchableOpacity style={{ position: "absolute", top: 12, right: 5, backgroundColor: "rgba(211, 211, 211, 1)", borderRadius: 10, padding: 4 }}>
+                <Text style={[styles.btnTextStyle, { fontFamily: "Title-Font", fontSize: 16, color: "black"}]}>Help</Text>
+            </TouchableOpacity>
             <Title />
-            <Turns turns={turns} setTurns={setTurns} /> 
+            <Turns turns={turns} setTurns={setTurns} />
             <View style={styles.btnContainer}>
                 {/* <TouchableOpacity style={[styles.btnStyle, styles.takeBtn]} onPress={async () => await SecureStore.deleteItemAsync("device_token")}>
                     <Text style={styles.btnTextStyle}>DEV: Clear Token</Text>

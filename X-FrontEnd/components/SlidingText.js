@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Animated, Text } from "react-native"
 
-export const SlidingText = ({ msgs, duration}) => {
+export const SlidingText = ({  isWarning = false, msgs, duration }) => {
     const translateX = useRef(new Animated.Value(-200)).current;
     const opacity = useRef(new Animated.Value(0)).current;
 
@@ -54,7 +54,7 @@ export const SlidingText = ({ msgs, duration}) => {
         >
             <Text style={{
                 fontFamily: "Title-Font",
-                color: "white",
+                color: isWarning ? "black" : "white",
             }}>{msgs[index]}</Text>
         </Animated.View>
     )

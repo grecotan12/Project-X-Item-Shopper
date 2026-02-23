@@ -10,12 +10,15 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SecureStore from "expo-secure-store";
 import axios from 'axios';
+import { TouchableOpacity } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { FactScreen } from "./screens/FactScreen";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  // const [llm, setLLM] = useState(null);
   const [imageUri, setImageUri] = useState(null);
   const [turns, setTurns] = useState(800);
 
@@ -63,24 +66,22 @@ export default function App() {
       >
         <Stack.Screen name="Home">
           {(props) => <MainScreen {...props} turns={turns} setTurns={setTurns}
-          // llm={llm} setLLM={setLLM} 
           />}
         </Stack.Screen>
         <Stack.Screen name="Camera">
           {(props) => <CameraScreen {...props} imageUri={imageUri} setImageUri={setImageUri} turns={turns} setTurns={setTurns}
-          // llm={llm} 
           />}
         </Stack.Screen>
-        <Stack.Screen name="Upload">
+        <Stack.Screen name="Upload"
+        >
           {(props) => <UploadScreen {...props} imageUri={imageUri} setImageUri={setImageUri} turns={turns} setTurns={setTurns}
-          //llm={llm} 
           />}
         </Stack.Screen>
         <Stack.Screen name="Objects" component={ObjectsScreen}
-        // llm={llm} 
         />
-        <Stack.Screen name="Result" component={ResultScreen} 
-        // llm={llm} 
+        <Stack.Screen name="Result" component={ResultScreen}
+        />
+        <Stack.Screen name="Fact" component={FactScreen} 
         />
       </Stack.Navigator>
     </NavigationContainer>
