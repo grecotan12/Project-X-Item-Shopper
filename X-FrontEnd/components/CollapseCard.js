@@ -66,15 +66,6 @@ export const CollapseCard = ({ title, source, link, imageUrl }) => {
     );
 };
 
-const btnStyles = StyleSheet.create({
-    glanceBtn: {
-        backgroundColor: 'rgba(17,17,132,0.2)'
-    },
-    glanceText: {
-        fontFamily: 'Title-Font',
-    }
-});
-
 const styles = StyleSheet.create({
     card: {
         backgroundColor: 'rgba(255, 255, 255, 0.7)',

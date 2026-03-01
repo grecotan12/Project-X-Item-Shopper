@@ -1,19 +1,28 @@
 import { useRoute, useNavigation } from "@react-navigation/native"
-import { FlatList, View, Dimensions } from "react-native"
+import { FlatList, View, Dimensions, TouchableOpacity, Text } from "react-native"
 import { CollapseCard } from "../components/CollapseCard";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import axios from 'axios';
 import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
 import * as SecureStore from "expo-secure-store";
+import LottieView from 'lottie-react-native';
 
 const { width, height } = Dimensions.get('window');
 export const ResultScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
     const { searchResult, userId, category, turns, setTurns } = route.params;
-    const titlesFound = [searchResult[0].title, searchResult[1].title, searchResult[2].title,
-                        searchResult[3].title, searchResult[4].title];
+    let titlesFound = [];
+    if (searchResult.length < 5) {
+        searchResult.forEach(element => {
+            titlesFound.add(element.title);
+        });
+    }
+    else {
+        titlesFound = [searchResult[0].title, searchResult[1].title, searchResult[2].title,
+        searchResult[3].title, searchResult[4].title];
+    }
 
     useEffect(() => {
         const saveRes = async () => {
@@ -35,6 +44,7 @@ export const ResultScreen = () => {
         saveRes();
     }, [searchResult, userId, category])
 
+
     const stars = [...Array(40)].map(() => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -42,29 +52,26 @@ export const ResultScreen = () => {
         duration: Math.random() * 1000 + 500,
     }));
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Fact", {
-                        titlesFound: titlesFound
-                    })}
-                >
-                    <FontAwesome
-                        style={{ marginLeft: 14 }}
-                        name="exclamation" size={22} color="black" />
-                </TouchableOpacity>
-            )
-        })
-    }, [navigation])
-
     return (
         <View style={{ flex: 1, backgroundColor: '#000', padding: 20 }}>
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}
             <Turns turns={turns} setTurns={setTurns} />
+            <TouchableOpacity
+                onPress={() => navigation.navigate("Fact", {
+                    titlesFound: titlesFound
+                })}
+                style={{ position: "absolute", top: 5, right: 8, backgroundColor: "rgba(211, 211, 211, 1)", borderRadius: 10, padding: 4 }}>
+                <LottieView 
+                                source={require('../assets/animations/info.json')}
+                                autoPlay
+                                loop
+                                style={{ width: 50, height: 50 }}
+                            />
+            </TouchableOpacity>
             <FlatList
+                style={{ marginTop: 40}}
                 data={searchResult}
                 keyExtractor={(item, index) => item.id ?? index.toString()}
                 renderItem={({ item }) => (

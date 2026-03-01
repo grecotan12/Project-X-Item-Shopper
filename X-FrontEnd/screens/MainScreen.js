@@ -4,10 +4,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 // import { initLlama } from "llama.rn";
 // import RNFS from 'react-native-fs'; // File system module
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Turns } from "../components/Turns";
 import { Star } from "../components/Star";
-import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get('window');
 export const MainScreen = ({
