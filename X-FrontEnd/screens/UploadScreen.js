@@ -68,7 +68,7 @@ export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
         });
         const token = await SecureStore.getItemAsync("device_token");
         try {
-            const res = await axios.post("https://api.dosguardx.com/recognize",
+            const res = await axios.post("https://api.dosguardx.com/search/recognize",
                 formData,
                 {
                     headers: {
@@ -124,7 +124,7 @@ export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
         });
         const token = await SecureStore.getItemAsync("device_token");
         try {
-            const res = await axios.post(`https://api.dosguardx.com/searchImage/${category}`,
+            const res = await axios.post(`https://api.dosguardx.com/search/searchImage/${category}`,
                 formData,
                 {
                     headers: {

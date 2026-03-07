@@ -8,7 +8,7 @@ export const Turns = ({ turns, setTurns }) => {
     useEffect(() => {
         const getTurns = async () => {
             try {
-                const res = await axios.get("https://api.dosguardx.com/getTurns");
+                const res = await axios.get("https://api.dosguardx.com/credits/getTurns");
                 setTurns(res.data);
                 // if turnLeft < 3
                 // setNoTurnleft(true)

@@ -26,7 +26,7 @@ export const ObjectsScreen = () => {
         });
         const token = await SecureStore.getItemAsync("device_token");
         try {
-            const res = await axios.post(`https://api.dosguardx.com/searchImage/${object}`,
+            const res = await axios.post(`https://api.dosguardx.com/search/searchImage/${object}`,
                 formData,
                 {
                     headers: {

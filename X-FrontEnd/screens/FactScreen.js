@@ -27,14 +27,14 @@ export const FactScreen = () => {
             const token = await SecureStore.getItemAsync("device_token");
             setLoading(true);
             try {
-                const res = await axios.post("https://api.dosguardx.com/generateObjectContext",
+                const res = await axios.post("https://api.dosguardx.com/openai/generateObjectContext",
                     { "titles": titlesFound },
-                    // {
-                    //     headers: {
-                    //         "Authorization": `Bearer ${token}`,
-                    //         "Content-Type": "application/json",
-                    //     },
-                    // }
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
                 )
                 const data = res.data;
                 setInfo(data);
