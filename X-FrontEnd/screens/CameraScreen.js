@@ -94,8 +94,6 @@ export const CameraScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
             setLoading(false);
             navigation.navigate('Objects', {
                 info: finalList,
-                turns: turns,
-                setTurns: setTurns
             })
         } catch (error) {
             // console.log(error);
@@ -146,8 +144,6 @@ export const CameraScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
                 searchResult: data,
                 userId: userId,
                 category: category,
-                turns: turns,
-                setTurns: setTurns
             })
         } catch (error) {
             setLoading(false);

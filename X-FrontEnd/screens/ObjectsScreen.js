@@ -9,10 +9,10 @@ import { Loading } from '../components/Loading';
 import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get('window');
-export const ObjectsScreen = () => {
+export const ObjectsScreen = ({ turns, setTurns }) => {
     const route = useRoute();
     const navigation = useNavigation();
-    const { info, turns, setTurns } = route.params;
+    const { info } = route.params;
     const [loading, setLoading] = useState(false);
 
     const chooseObject = async (object, img) => {
@@ -42,8 +42,6 @@ export const ObjectsScreen = () => {
                 searchResult: data,
                 userId: userId,
                 category: object,
-                turns: turns,
-                setTurns: setTurns
             })
         } catch (error) {
             setLoading(false);

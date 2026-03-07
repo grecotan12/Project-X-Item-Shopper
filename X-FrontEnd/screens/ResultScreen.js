@@ -9,10 +9,10 @@ import * as SecureStore from "expo-secure-store";
 import LottieView from 'lottie-react-native';
 
 const { width, height } = Dimensions.get('window');
-export const ResultScreen = () => {
+export const ResultScreen = ({ turns, setTurns }) => {
     const route = useRoute();
     const navigation = useNavigation();
-    const { searchResult, userId, category, turns, setTurns } = route.params;
+    const { searchResult, userId, category } = route.params;
     let titlesFound = [];
     if (searchResult.length < 5) {
         searchResult.forEach(element => {

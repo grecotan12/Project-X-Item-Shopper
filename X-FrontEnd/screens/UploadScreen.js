@@ -89,8 +89,6 @@ export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
             setLoading(false);
             navigation.navigate('Objects', {
                 info: finalList,
-                turns: turns,
-                setTurns: setTurns
             })
         } catch (error) {
             setLoading(false);
@@ -140,8 +138,6 @@ export const UploadScreen = ({ imageUri, setImageUri, turns, setTurns }) => {
                 searchResult: data,
                 userId: userId,
                 category: category,
-                turns: turns,
-                setTurns: setTurns
             })
         } catch (error) {
             setLoading(false);

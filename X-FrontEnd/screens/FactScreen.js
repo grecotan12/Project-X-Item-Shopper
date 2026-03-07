@@ -7,8 +7,9 @@ import * as SecureStore from "expo-secure-store";
 import { CollapseCardInfo } from "../components/CollapseCardInfo";
 import axios from 'axios';
 import { Loading } from "../components/Loading";
+import { Turns } from "../components/Turns";
 
-export const FactScreen = () => {
+export const FactScreen = ({ turns, setTurns }) => {
     const route = useRoute();
     const { titlesFound } = route.params;
     const [info, setInfo] = useState({});
@@ -52,6 +53,7 @@ export const FactScreen = () => {
             {stars.map((star, i) => (
                 <Star key={i} {...star} />
             ))}
+            <Turns turns={turns} setTurns={setTurns} />
             {loading ?
                 <Loading /> :
                 (
